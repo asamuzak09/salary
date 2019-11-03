@@ -1,24 +1,36 @@
-# README
+イメージ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+　　一覧表
 
-Things you may want to cover:
+　　月締めの日にち+何月入力
+　　　１ヶ月の日数一覧
 
-* Ruby version
+　　時間帯ごとの給料（平日、休日）
 
-* System dependencies
+　　シフト入力
+　　　曜日と時間
 
-* Configuration
+　　出勤、退社、休憩、調整を入力
 
-* Database creation
+　　労働時間（人ごと、時間帯ごとに合計、給料計算）
 
-* Database initialization
 
-* How to run the test suite
+機能一覧
 
-* Services (job queues, cache servers, search engines, etc.)
+ ・会員登録（管理者・労働者）
+ ・ログイン・ログアウト
+ ・管理者はシフトを入力できる。
+ ・管理者は単価を入力できる。
+ ・管理者は月締めの日にちを入力できる。
+ ・管理者は臨時休業を設定できる。
+ ・労働者は出社、退社、休憩時間を入力できる。
+ ・労働者は出勤時間の表を見れる。
 
-* Deployment instructions
+モデル
 
-* ...
+ ・管理者
+ ・労働者
+ ・タイムカード（西暦、月、労働者ID、給料ID）
+ ・シフト（タイムカードID、日付、出勤、休憩、退社、種別）
+ ・就業時間（シフトID、出勤、休憩、退社）
+ ・給料（時間帯ごとの時給、優先順位、労働者ID）
