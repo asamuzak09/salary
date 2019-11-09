@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/new' => "admin#new"
+  post "admin/create" => "admin#create"
   devise_for :admins
   devise_for :users
   get 'shift/index' => "shift#index"
