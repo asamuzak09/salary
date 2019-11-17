@@ -34,3 +34,11 @@ salary = Salary.create(
     payment22: 1000,
     payment23: 1000,
     )
+timecard = TimeCard.create(
+    user_id: 1,
+    year: 2019,
+    month: 11,
+    salary_id: 1,
+    starting_date: Date.parse("2019-10-21"),
+    closing_date: Date.parse("2019-11-20")
+)    

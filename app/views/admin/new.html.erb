@@ -1,10 +1,9 @@
 <h1>タイムカード作成</h1>
 <%= form_with url: "/admin/create", local:true do |f| %>
-  <%= f.label :西暦、月を選択してください %><br>
-  <%= f.date_select :date, {:discard_day => true,:use_month_numbers => true,:date_separator => "年 "} %>
-  <span>月</span>
+  <%= f.label :西暦、月、締め日を選択してください %><br>
+  <p><%= f.date_field :closing_day %></p>
   <p><%= f.label :誰のタイムカードを作成しますか？ %></p>
   <p><%= f.select :user_id, @users.map { |user| [user.name,user.id] } %></p>
-  <p><%= link_to("ユーザー新規作成", new_user_session_path) %>
+  <p><%= link_to("ユーザー新規作成", new_user_session_path) %></p>
   <p><%= f.submit "作成" %></p>
 <% end %>

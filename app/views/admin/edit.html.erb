@@ -1,0 +1,39 @@
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+<th rowspan="2">月日</th>
+<th rowspan="2">曜日</th>
+<th colspan="3">今月のシフト</th>
+<th rowspan="2">シフトによる規定就業時間</th>
+<th colspan="5">就業時間</th>
+<th rowspan="2">出勤日数</th>
+<th rowspan="2">残業時間</th>
+</tr>
+<tr>
+<td>出勤</td>
+<td>休憩時間</td>
+<td>退社</td>
+<td>出勤</td>
+<td>休憩時間</td>
+<td>退社</td>
+<td>調整</td>
+<td>実労働時間</td>
+</tr>
+<% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
+<tr>
+<td><%= date.strftime('%m月%d日') %></td>
+<td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<% end %>
+
+

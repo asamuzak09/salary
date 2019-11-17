@@ -76,10 +76,13 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
     t.bigint "user_id", null: false
     t.integer "year", null: false
     t.integer "month", null: false
+    t.date "starting_date", null: false
+    t.date "closing_date", null: false
     t.bigint "salary_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["salary_id"], name: "index_time_cards_on_salary_id"
+    t.index ["user_id", "year", "month"], name: "index_time_cards_on_user_id_and_year_and_month", unique: true
     t.index ["user_id"], name: "index_time_cards_on_user_id"
   end
 
