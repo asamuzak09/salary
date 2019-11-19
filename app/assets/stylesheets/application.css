@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+.error{
+    color: red
+}
+ .login-user{
+    margin-right: 10px;
+}
+.login-set{
+    float: right;
+}
