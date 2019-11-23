@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
     t.time "start_at"
     t.integer "rest_minutes"
     t.time "end_at"
+    t.integer "preparation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["time_card_id"], name: "index_shifts_on_time_card_id"

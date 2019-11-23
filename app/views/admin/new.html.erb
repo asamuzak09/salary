@@ -5,5 +5,60 @@
   <p><%= f.label :誰の出勤時間表を作成しますか？ %></p>
   <p><%= f.select :user_id, @users.map { |user| [user.name1 + " " + user.name2,user.id] } %></p>
   <p><%= link_to("ユーザー新規作成", "/users/sign_up") %></p>
+  <table border="1" cellpadding="6" cellspacing="0">
+    <tr>
+      <th colspan=5 class="head">シフト時間</th>
+    </tr>
+    <tr>
+      <td></td>
+      <th>出勤時刻</th>
+      <th>休憩時間</th>
+      <th>退社時刻</th>
+      <th>調整時間</th>
+    </tr>
+    <tr>
+      <td>月</td>
+      <td><%= f.time_select :mon_start , default: {hour: '09', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :mon_rest , default: {hour: '01', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :mon_end , default: {hour: '17', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td rowspan=7><%= f.time_select :preparation , default: {hour: '00', minute: '30', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>
+      <td>火</td>
+      <td><%= f.time_select :tue_start , default: {hour: '09', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :tue_rest , default: {hour: '01', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :tue_end , default: {hour: '17', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>
+      <td>水</td>
+      <td><%= f.time_select :wed_start , default: {hour: '09', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :wed_rest , default: {hour: '01', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :wed_end , default: {hour: '17', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>
+      <td>木</td>
+      <td><%= f.time_select :thu_start , default: {hour: '09', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :thu_rest , default: {hour: '01', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :thu_end , default: {hour: '17', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>  
+      <td>金</td>
+      <td><%= f.time_select :fri_start , default: {hour: '09', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :fri_rest , default: {hour: '01', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :fri_end , default: {hour: '17', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>  
+      <td>土</td>
+      <td><%= f.time_select :sat_start , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :sat_rest , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :sat_end , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+    <tr>  
+      <td>日</td>
+      <td><%= f.time_select :sun_start , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :sun_rest , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+      <td><%= f.time_select :sun_end , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+    </tr>
+  </table>
   <p><%= f.submit "作成" %></p>
 <% end %>
