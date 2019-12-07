@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
 
   create_table "shifts", force: :cascade do |t|
     t.bigint "time_card_id", null: false
-    t.string "kind"
+    t.string "kind", null: false
     t.date "date", null: false
     t.time "start_at"
     t.integer "rest_minutes"

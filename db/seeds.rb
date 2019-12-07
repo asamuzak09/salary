@@ -42,4 +42,4 @@ timecard = TimeCard.create(
     salary_id: 1,
     starting_date: Date.parse("2019-10-21"),
     closing_date: Date.parse("2019-11-20")
-)    
+)   
