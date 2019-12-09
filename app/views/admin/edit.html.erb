@@ -19,21 +19,29 @@
 <td>実労働時間</td>
 </tr>
 <% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
-<tr>
-<td><%= date.strftime('%m月%d日') %></td>
-<td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
+    <% @shift = Shift.where(time_card_id: @timecard.id).find_by(date: date) %>
+    <tr>
+    <td><%= date.strftime('%m月%d日') %></td>
+    <td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
+    <% if @shift.kind == "holiday" %>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    <% else %>
+        <td><%= @shift.start_at.strftime('%k:%M') %></td>
+        <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
+        <td><%= @shift.end_at.strftime('%k:%M') %></td>
+        <td><%= "#{(@shift.end_at - @shift.start_at ).floor/3600 - @shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{((@shift.end_at - @shift.start_at).floor%3600)/60 - @shift.rest_minutes%60}".rjust(2,"0") %></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
 <% end %>
 
 
