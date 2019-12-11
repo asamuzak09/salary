@@ -21,7 +21,8 @@
       
 
       <% if admin_signed_in? %>
-      　<td><%= link_to("出勤時間表作成","/admin/new")%></td>
+      　<td><%= link_to("シフト表作成","/admin/new")%></td>
+        <td><%= link_to("シフト表一覧","/admin/index")%></td>
         <td><%= link_to("My page","/users/#{current_admin.id}")%></td>
       
         <div class="login-set">

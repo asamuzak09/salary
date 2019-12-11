@@ -54,17 +54,25 @@ class AdminController < ApplicationController
        start_at: @start_at,
        rest_minutes: @rest,
        end_at: @end_at,
-       preparation: Time.parse("#{params[:'preparation(4i)']}:#{params[:'preparation(5i)']}")
+       preparation: params[:"preparation(4i)"].to_i * 60 + params[:"preparation(5i)"].to_i
       )
     end
     
     redirect_to("/admin/edit/#{@timecard.id}")
   end
-  
+
+  def index
+    @cards = TimeCard.all
+  end
+
   def edit
     @timecard = TimeCard.find_by(id: params[:id])
-  
-  end 
+    
+  end
+
+  def update
+    raise
+  end  
   
   def kind(start,ending)
     if ending == start
@@ -74,8 +82,7 @@ class AdminController < ApplicationController
     end  
   end
   
-  # # def worktime(start,rest,ending)
-  #   "(ending - start ).floor/3600 - rest/60}".rjust(2,"0") + ":" + "#{((ending - start).floor%3600)/60 - rest%60}".rjust(2,"0")
-  # end  
-  
+  def worktime(start,rest,ending)
+    (ending - start - rest * 60)/60
+  end
 end

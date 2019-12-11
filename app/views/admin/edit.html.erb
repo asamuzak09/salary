@@ -1,47 +1,79 @@
-<table border="1" cellpadding="6" cellspacing="0">
-<tr>
-<th rowspan="2">月日</th>
-<th rowspan="2">曜日</th>
-<th colspan="3">今月のシフト</th>
-<th rowspan="2">シフトによる規定就業時間</th>
-<th colspan="5">就業時間</th>
-<th rowspan="2">出勤日数</th>
-<th rowspan="2">残業時間</th>
-</tr>
-<tr>
-<td>出勤</td>
-<td>休憩時間</td>
-<td>退社</td>
-<td>出勤</td>
-<td>休憩時間</td>
-<td>退社</td>
-<td>調整</td>
-<td>実労働時間</td>
-</tr>
-<% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
-    <% @shift = Shift.where(time_card_id: @timecard.id).find_by(date: date) %>
+<%= form_with url: "/admin/update", local:true do |f| %>
+    <table border="1" cellpadding="6" cellspacing="0" class="head">
     <tr>
-    <td><%= date.strftime('%m月%d日') %></td>
-    <td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
-    <% if @shift.kind == "holiday" %>
+    <th rowspan="2">月日</th>
+    <th rowspan="2">曜日</th>
+    <th colspan="3">今月のシフト</th>
+    <th rowspan="2">シフトによる<br>規定就業時間</th>
+    <th colspan="5">就業時間</th>
+    <th rowspan="2">出勤日数</th>
+    <th rowspan="2">残業時間</th>
+    </tr>
+    <tr>
+    <td>出勤</td>
+    <td>休憩時間</td>
+    <td>退社</td>
+    <td>出勤</td>
+    <td>休憩時間</td>
+    <td>退社</td>
+    <td>調整</td>
+    <td>実労働時間</td>
+    </tr>
+    <% @count = 1 %>
+    <% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
+        <% @shift = Shift.where(time_card_id: @timecard.id).find_by(date: date) %>
+        
+        <tr>
+        <td><%= date.strftime('%m月%d日') %></td>
+        <td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
+        <% if @shift.kind == "holiday" %>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><%= f.time_select :"day#{@count}_start" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"day#{@count}_rest" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"day#{@count}_end" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td></td>
+        <% else %>
+            <% worktime(@shift.start_at,@shift.rest_minutes,@shift.end_at) %>
+            <td><%= @shift.start_at.strftime('%k:%M') %></td>
+            <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
+            <td><%= @shift.end_at.strftime('%k:%M') %></td>
+            <td><%= @display %></td>
+            <td><%= f.time_select :"day#{@count}_start" , {default: @shift.start_at}, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"day#{@count}_rest" , default: {hour: @shift.rest_minutes/60, minute: @shift.rest_minutes%60, }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"day#{@count}_end" , {default: @shift.end_at}, minute_step: 15, ignore_date: true %></td>
+            <td><%= "#{@shift.preparation/60}".rjust(2,"0") + ":" + "#{@shift.preparation%60}".rjust(2,"0") %></td>
+        <% end %>
+
+        
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-    <% else %>
-        <td><%= @shift.start_at.strftime('%k:%M') %></td>
-        <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
-        <td><%= @shift.end_at.strftime('%k:%M') %></td>
-        <td><%= "#{(@shift.end_at - @shift.start_at ).floor/3600 - @shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{((@shift.end_at - @shift.start_at).floor%3600)/60 - @shift.rest_minutes%60}".rjust(2,"0") %></td>
+        </tr>
+        <% @count = @count + 1 %>
+        
     <% end %>
+    <tr>
     <td></td>
+    <td colspan = 4></td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td colspan = 4></td>
     <td></td>
     <td></td>
     <td></td>
     </tr>
+    <tr>
+    <td>合計</td>
+    <td colspan = 4></td>
+    <td></td>
+    <td colspan = 4></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    </table>
+    <p class = "head"><%= f.submit "作成" %></p>
+    
 <% end %>
-
-
