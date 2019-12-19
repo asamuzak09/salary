@@ -1,4 +1,14 @@
-<% @cards.each do |card| %>
-<p><%= card.year %>/<%= card.month %></p>
 
+<table cellpadding="5" cellspacing="5" class="head">
+<tr>
+<th>日付</th>
+</tr>
+<% @cards.each do |card| %>
+<tr>
+<td><%= card.year %>/<%= card.month %></td>
+<td><%= link_to("詳細","/admin/#{card.id}") %></td>
+<td><%= link_to("編集","/admin/edit/#{card.id}") %></td>
+<td><%= link_to("削除","/admin/destroy/#{card.id}",{method:"post"}) %></td>
+</tr>
 <% end %>
+</table>

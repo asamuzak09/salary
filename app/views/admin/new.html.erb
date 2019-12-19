@@ -60,5 +60,5 @@
       <td><%= f.time_select :sun_end , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
     </tr>
   </table>
-  <p><%= f.submit "作成" %></p>
+  <p><%= f.submit value: "作成" ,data: { "disable-with": "保存しています..." } %></p>
 <% end %>

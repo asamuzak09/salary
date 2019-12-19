@@ -14,3 +14,15 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+$(function() {
+    var $input = $('#input');
+    var $output = $('#output');
+    $input.on('input', function(event) {
+        $output.text($input.val());
+    });
+});  
+
+$.ajax({
+    type:'GET',
+    url:'/admin/edit'+output,
+});

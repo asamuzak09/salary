@@ -31,9 +31,9 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><%= f.time_select :"day#{@count}_start" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"day#{@count}_rest" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"day#{@count}_end" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_start]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_end]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
             <td></td>
         <% else %>
             <% worktime(@shift.start_at,@shift.rest_minutes,@shift.end_at) %>
@@ -41,20 +41,22 @@
             <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
             <td><%= @shift.end_at.strftime('%k:%M') %></td>
             <td><%= @display %></td>
-            <td><%= f.time_select :"day#{@count}_start" , {default: @shift.start_at}, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"day#{@count}_rest" , default: {hour: @shift.rest_minutes/60, minute: @shift.rest_minutes%60, }, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"day#{@count}_end" , {default: @shift.end_at}, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_start]" , {default: @shift.start_at}, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @shift.rest_minutes/60, minute: @shift.rest_minutes%60, }, minute_step: 15, ignore_date: true %></td>
+            <td id="input"><%= f.time_select :"working_hour[][day_end]" , {default: @shift.end_at}, minute_step: 15, ignore_date: true %></td>
             <td><%= "#{@shift.preparation/60}".rjust(2,"0") + ":" + "#{@shift.preparation%60}".rjust(2,"0") %></td>
         <% end %>
 
         
-        <td></td>
+        <td><span id="output"></span></td>
         <td></td>
         <td></td>
         </tr>
-        <% @count = @count + 1 %>
+        <%= f.hidden_field :"working_hour[][shift_id]", value: @shift.id %>
+
         
     <% end %>
+    <%= f.hidden_field :timecard_id, value: @timecard.id %>
     <tr>
     <td></td>
     <td colspan = 4></td>
@@ -74,6 +76,6 @@
     <td></td>
     </tr>
     </table>
-    <p class = "head"><%= f.submit "作成" %></p>
+    <p class = "head"><%= f.submit "適用" ,data: { "disable-with": "保存しています..."} %></p>
     
 <% end %>

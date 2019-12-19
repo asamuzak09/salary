@@ -4,6 +4,12 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <%= f.label :氏名（必須） %><br />
+    <%= f.text_field :name1, autofocus: true, autocomplete: "name1" %>
+    <%= f.text_field :name2, autofocus: true, autocomplete: "name2" %>
+  </div>
+  
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>

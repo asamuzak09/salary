@@ -3,7 +3,7 @@ class CreateWorkingHours < ActiveRecord::Migration[5.2]
     create_table :working_hours do |t|
       t.references :shift, null:false
       t.time :punch_in, null:false
-      t.integer :rest_minute, null:false
+      t.integer :rest_minutes, null:false
       t.time :punch_out, null:false
       t.timestamps
     end

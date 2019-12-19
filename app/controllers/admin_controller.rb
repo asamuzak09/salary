@@ -67,13 +67,44 @@ class AdminController < ApplicationController
 
   def edit
     @timecard = TimeCard.find_by(id: params[:id])
+    @start_at = @jsstart
     
   end
 
   def update
-    raise
+    @timecard = TimeCard.find_by(id: params[:timecard_id])
+    @error_flag = false
+    params[:working_hour].each do |working_day|
+      @working = WorkingHour.new(
+        shift_id: working_day[:shift_id],
+        punch_in: Time.parse("#{working_day[:"day_start"]["(4i)"]}:#{working_day[:"day_start"]["(5i)"]}"),
+        rest_minutes: working_day[:"day_rest"]["(4i)"].to_i * 60 + working_day[:"day_rest"]["(5i)"].to_i,
+        punch_out: Time.parse("#{working_day[:"day_end"]["(4i)"]}:#{working_day[:"day_end"]["(5i)"]}"),
+      )  
+      if @working.save
+
+      else
+        @error_flag = true
+        break
+      end
+    end
+    if @error_flag
+      render("/admin/edit/#{@timecard.id}") 
+    else
+      redirect_to("/admin/#{@timecard.id}")   
+    end  
+  end
+
+  def show
+    @timecard = TimeCard.find_by(id: params[:id])
   end  
   
+  def destroy
+    @timecard = TimeCard.find_by(id: params[:id])
+    @timecard.destroy
+    redirect_to("/admin/index") 
+  end
+
   def kind(start,ending)
     if ending == start
       :holiday

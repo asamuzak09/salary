@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
   create_table "working_hours", force: :cascade do |t|
     t.bigint "shift_id", null: false
     t.time "punch_in", null: false
-    t.integer "rest_minute", null: false
+    t.integer "rest_minutes", null: false
     t.time "punch_out", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
