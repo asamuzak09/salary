@@ -1,2 +1,9 @@
-<h1>給料計算</h1>
-
+<h1 class="head">給料計算</h1><br><br>
+<% if admin_signed_in? %>
+    <p>・<%= link_to("シフト表作成","/admin/new")%></p>
+    <p>・<%= link_to("シフト表一覧","/admin/index")%></p>
+    <p>・<%= link_to("ユーザー管理","/users/index")%></p>
+    <p>・<%= link_to("ユーザー新規作成","/users/sign_up")%></p>
+<% else %>
+    <h3>※シフト表を作成するには管理者ログインが必要です。</h3>
+<% end %>

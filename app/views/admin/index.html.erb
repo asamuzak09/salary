@@ -8,7 +8,7 @@
 <td><%= card.year %>/<%= card.month %></td>
 <td><%= link_to("詳細","/admin/#{card.id}") %></td>
 <td><%= link_to("編集","/admin/edit/#{card.id}") %></td>
-<td><%= link_to("削除","/admin/destroy/#{card.id}",{method:"post"}) %></td>
+<td><%= link_to("削除","/admin/destroy/#{card.id}",{method:"post" ,data: { confirm: '削除してよろしいですか？'}}) %></td>
 </tr>
 <% end %>
 </table>
