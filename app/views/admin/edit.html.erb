@@ -20,36 +20,48 @@
     <td>調整</td>
     <td>実労働時間</td>
     </tr>
-    <% @count = 1 %>
     <% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
         <% @shift = Shift.where(time_card_id: @timecard.id).find_by(date: date) %>
         
         <tr>
         <td><%= date.strftime('%m月%d日') %></td>
         <td><%= %w(日 月 火 水 木 金 土)[date.wday] %></td>
+        <% if @shift.working_hour %>
+            <% @default = WorkingHour.find_by(shift_id: @shift) %>
+            <% @start_at = @default.punch_in %>
+            <% @rest_minutes = @default.rest_minutes %>
+            <% @end_at = @default.punch_out %>
+        <% elsif @shift.kind == "holiday" %>
+            <% @start_at = Time.parse("00:00") %>
+            <% @rest_minutes = 0 %>
+            <% @end_at = Time.parse("00:00") %>
+        <% else %>    
+            <% @start_at = @shift.start_at %>
+            <% @rest_minutes = @shift.rest_minutes %>
+            <% @end_at = @shift.end_at %>
+        <% end %>        
         <% if @shift.kind == "holiday" %>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td><%= f.time_select :"working_hour[][day_start]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"working_hour[][day_end]" , default: {hour: '00', minute: '00', }, minute_step: 15, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_start]" , default: @start_at, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @rest_minutes/60, minute: @rest_minutes%60, }, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_end]" , default: @end_at, ignore_date: true %></td>
             <td></td>
         <% else %>
-            <% worktime(@shift.start_at,@shift.rest_minutes,@shift.end_at) %>
             <td><%= @shift.start_at.strftime('%k:%M') %></td>
             <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
             <td><%= @shift.end_at.strftime('%k:%M') %></td>
-            <td><%= @display %></td>
-            <td><%= f.time_select :"working_hour[][day_start]" , {default: @shift.start_at}, minute_step: 15, ignore_date: true %></td>
-            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @shift.rest_minutes/60, minute: @shift.rest_minutes%60, }, minute_step: 15, ignore_date: true %></td>
-            <td id="input"><%= f.time_select :"working_hour[][day_end]" , {default: @shift.end_at}, minute_step: 15, ignore_date: true %></td>
+            <td><%= dworktime(@shift.start_at,@shift.rest_minutes,@shift.end_at,0) %></td>
+            <td><%= f.time_select :"working_hour[][day_start]" , {default: @start_at}, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @rest_minutes/60, minute: @rest_minutes%60, }, ignore_date: true %></td>
+            <td><%= f.time_select :"working_hour[][day_end]" , {default: @end_at}, ignore_date: true %></td>
             <td><%= "#{@shift.preparation/60}".rjust(2,"0") + ":" + "#{@shift.preparation%60}".rjust(2,"0") %></td>
         <% end %>
 
         
-        <td><span id="output"></span></td>
+        <td></td>
         <td></td>
         <td></td>
         </tr>

@@ -67,22 +67,20 @@ class AdminController < ApplicationController
 
   def edit
     @timecard = TimeCard.find_by(id: params[:id])
-    @start_at = @jsstart
-    
   end
 
   def update
     @timecard = TimeCard.find_by(id: params[:timecard_id])
     @error_flag = false
     params[:working_hour].each do |working_day|
-      @working = WorkingHour.new(
-        shift_id: working_day[:shift_id],
-        punch_in: Time.parse("#{working_day[:"day_start"]["(4i)"]}:#{working_day[:"day_start"]["(5i)"]}"),
-        rest_minutes: working_day[:"day_rest"]["(4i)"].to_i * 60 + working_day[:"day_rest"]["(5i)"].to_i,
-        punch_out: Time.parse("#{working_day[:"day_end"]["(4i)"]}:#{working_day[:"day_end"]["(5i)"]}"),
-      )  
+      @working = WorkingHour.find_or_initialize_by(
+        shift_id: working_day[:shift_id]
+      )
+      @working.punch_in = Time.parse("#{working_day[:"day_start"]["(4i)"]}:#{working_day[:"day_start"]["(5i)"]}")
+      @working.rest_minutes = working_day[:"day_rest"]["(4i)"].to_i * 60 + working_day[:"day_rest"]["(5i)"].to_i
+      @working.punch_out = Time.parse("#{working_day[:"day_end"]["(4i)"]}:#{working_day[:"day_end"]["(5i)"]}") 
       if @working.save
-
+   
       else
         @error_flag = true
         break
@@ -116,4 +114,9 @@ class AdminController < ApplicationController
   def worktime(start,rest,ending)
     (ending - start - rest * 60)/60
   end
+
+  def dworktime(start,rest,ending,prepare)
+    "#{(ending - start - rest * 60 - prepare * 60).floor/3600}".rjust(2,"0") + ":" + "#{(ending - start - rest * 60 ).floor%3600/60}".rjust(2,"0")
+  end
+
 end
