@@ -1,0 +1,24 @@
+<table>
+<tr>
+<td rowspan = 2>合計</td>
+<td colspan = 4 rowspan = 2></td>
+<%  %>
+<td>規定労働時間</td>
+<td rowspan = 2></td>
+<td>休日労働合計</td>
+<td>残業時間合計</td>
+<td>時間内<br>労働時間</td>
+<td>合計労働時間</td>
+<td>勤務日数</td>
+<td>時間外<br>労働時間</td>
+</tr>
+<tr>
+<td><%= displaytime(@shifttotal) %></td>
+<td><%= displaytime(@holidayworktotal) %></td>
+<td><%= displaytime(@overtimetotal) %></td>
+<td><%= displaytime(@worktotal) %></td>
+<td><%= displaytime(@worktotal + @holidayworktotal) %></td>
+<td><%= @worktimes + @holidayworktimes %></td>
+<td><%= displaytime(@holidayworktotal) %></td>
+</tr>
+</table>

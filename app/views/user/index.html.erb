@@ -5,9 +5,10 @@
 <% @users.each do |user| %>
 <tr>
 <td><%= user.name1 %>  <%= user.name2 %></td>
-<td><%= link_to("詳細","") %></td>
-<td><%= link_to("編集","") %></td>
-<td><%= link_to("削除","") %></td>
+<td><%= link_to("詳細","/users/#{user.id}") %></td>
+<td><%= link_to("氏名編集","/users/edit/#{user.id}") %></td>
+<td><%= link_to("給料編集","/users/salary/#{user.id}") %>
+<td><%= link_to("削除","/users/destroy/#{user.id}", data: { confirm: "削除しますか？" }, method: :delete) %></td>
 </tr>
 <% end %>
 </table>

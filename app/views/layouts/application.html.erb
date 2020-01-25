@@ -24,20 +24,14 @@
       　<td><%= link_to("シフト表作成","/admin/new")%></td>
         <td><%= link_to("シフト表一覧","/admin/index")%></td>
         <td><%= link_to("ユーザー管理","/users/index")%></td>
-        <td><%= link_to("ユーザー新規作成","/users/sign_up")%></td>
+        <td><%= link_to("ユーザー新規作成","/users/new")%></td>
       
         <div class="login-set">
           <span class=login-user>管理者でログインしています</span>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-        </div>
-      <% elsif user_signed_in? %>
-        <div class="login-set">
-          <span class=login-user><%= current_user.name1 + " " + current_user.name2 %>でログインしています</span>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+          <%= link_to('Logout', destroy_admin_session_path, method: :delete) %>
         </div>
       <% else %>
-        <div class="login-set">
-          <%= link_to('ログイン', new_user_session_path) %>
+        <div class="login">
           <%= link_to('管理者ログイン', new_admin_session_path) %>   
         </div>
       <% end %>

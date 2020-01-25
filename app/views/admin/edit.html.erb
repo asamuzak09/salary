@@ -21,7 +21,7 @@
     <td>実労働時間</td>
     </tr>
     <% (@timecard.starting_date..@timecard.closing_date).each do |date| %>
-        <% @shift = Shift.where(time_card_id: @timecard.id).find_by(date: date) %>
+        <% @shift = @timecard.shifts.find_by(date: date) %>
         
         <tr>
         <td><%= date.strftime('%m月%d日') %></td>
@@ -51,13 +51,14 @@
             <td></td>
         <% else %>
             <td><%= @shift.start_at.strftime('%k:%M') %></td>
-            <td><%= "#{@shift.rest_minutes/60}".rjust(2,"0") + ":" + "#{@shift.rest_minutes%60}".rjust(2,"0") %></td>
+            <td><%= displaytime(@shift.rest_minutes * 60) %></td>
             <td><%= @shift.end_at.strftime('%k:%M') %></td>
-            <td><%= dworktime(@shift.start_at,@shift.rest_minutes,@shift.end_at,0) %></td>
+            <td><%= displaytime(shifttime(@shift)) %></td>
             <td><%= f.time_select :"working_hour[][day_start]" , {default: @start_at}, ignore_date: true %></td>
             <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @rest_minutes/60, minute: @rest_minutes%60, }, ignore_date: true %></td>
             <td><%= f.time_select :"working_hour[][day_end]" , {default: @end_at}, ignore_date: true %></td>
-            <td><%= "#{@shift.preparation/60}".rjust(2,"0") + ":" + "#{@shift.preparation%60}".rjust(2,"0") %></td>
+            <td><%= displaytime(@shift.preparation * 60) %></td>
+            <% @shifttotal += shifttime(@shift) %>
         <% end %>
 
         
@@ -82,7 +83,7 @@
     <tr>
     <td>合計</td>
     <td colspan = 4></td>
-    <td></td>
+    <td><%= displaytime(@shifttotal) %></td>
     <td colspan = 4></td>
     <td></td>
     <td></td>

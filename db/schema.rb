@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_025543) do
+ActiveRecord::Schema.define(version: 2020_01_25_045753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,33 +27,18 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "public_holidays", force: :cascade do |t|
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "salaries", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "priority", null: false
-    t.integer "payment0", null: false
-    t.integer "payment1", null: false
-    t.integer "payment2", null: false
-    t.integer "payment3", null: false
-    t.integer "payment4", null: false
-    t.integer "payment5", null: false
-    t.integer "payment6", null: false
-    t.integer "payment7", null: false
-    t.integer "payment8", null: false
-    t.integer "payment9", null: false
-    t.integer "payment10", null: false
-    t.integer "payment11", null: false
-    t.integer "payment12", null: false
-    t.integer "payment13", null: false
-    t.integer "payment14", null: false
-    t.integer "payment15", null: false
-    t.integer "payment16", null: false
-    t.integer "payment17", null: false
-    t.integer "payment18", null: false
-    t.integer "payment19", null: false
-    t.integer "payment20", null: false
-    t.integer "payment21", null: false
-    t.integer "payment22", null: false
-    t.integer "payment23", null: false
+    t.integer "payment", null: false
+    t.integer "overtime_pay", null: false
+    t.integer "holiday_pay", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "priority"], name: "index_salaries_on_user_id_and_priority", unique: true
@@ -90,15 +75,8 @@ ActiveRecord::Schema.define(version: 2019_11_03_025543) do
   create_table "users", force: :cascade do |t|
     t.string "name1", default: "", null: false
     t.string "name2", default: "", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "working_hours", force: :cascade do |t|

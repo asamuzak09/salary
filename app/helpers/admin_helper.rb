@@ -1,9 +1,23 @@
 module AdminHelper
-    def dworktime(start,rest,ending,prepare)
-        "#{(ending - start - (rest + prepare) * 60).floor/3600}".rjust(2,"0") + ":" + "#{(ending - start - (rest + prepare) * 60 ).floor%3600/60}".rjust(2,"0")
+    
+    def displaytime(time)
+        "#{time.floor/3600}".rjust(2,"0") + ":" + "#{time.floor%3600/60}".rjust(2,"0")
     end
 
-    def worktime(start,rest,ending,prepare)
-        (ending - start - (rest + prepare) * 60)/60
+    def shifttime(shift)
+        (shift.end_at - shift.start_at - shift.rest_minutes * 60)
+    end
+
+    def overtime(shift,workinghour)
+        (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
     end    
+
+    def worktime(shift,workinghour)
+        if overtime(shift,workinghour)/60 >= shift.preparation
+            workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
+        else
+            shifttime(shift)    
+        end
+    end 
+
 end

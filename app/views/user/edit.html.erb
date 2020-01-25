@@ -1,0 +1,15 @@
+<h2>ユーザー編集</h2>
+
+<%= form_with url: "/users/update/#{@user.id}", local:true do |f| %>
+
+  <div class="field">
+    <%= f.label :氏名（必須） %><br />
+    <%= f.text_field :name1, autofocus: true, autocomplete: "name1", value: @user.name1 %>
+    <%= f.text_field :name2, autocomplete: "name2", value: @user.name2 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "適用" %>
+  </div>
+
+<% end %>  

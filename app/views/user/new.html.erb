@@ -1,0 +1,29 @@
+<h2>ユーザー作成</h2>
+
+<%= form_with url: "/users/create", local:true do |f| %>
+
+  <div class="field">
+    <%= f.label :氏名（必須） %><br />
+    <%= f.text_field :name1, autofocus: true, autocomplete: "name1", value: @user.name1 %>
+    <%= f.text_field :name2, autocomplete: "name2", value: @user.name2 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :時給（通常） %><br />
+    <%= f.number_field :payment, autocomplete: "payment", value: @salary.payment %><br />
+  </div>
+
+  <div class="field">  
+    <%= f.label :時給（時間外） %><br />
+    <%= f.number_field :overtime_pay, autocomplete: "overtime_pay", value: @salary.overtime_pay %><br />
+  </div>
+
+  <div class="field">  
+    <%= f.label :時給（休日） %><br />
+    <%= f.number_field :holiday_pay, autocomplete: "holiday_pay", value: @salary.holiday_pay%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "作成" %>
+  </div>
+<% end %>  
