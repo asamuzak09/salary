@@ -14,24 +14,26 @@
       <p><%= flash[:notice] %></p>
     <% end %>
     
-    <table width="50%" cellspacing="5" cellpadding="5">
+    <table cellspacing="5" cellpadding="5">
     <tr>
       <td><%= link_to("Top","/")%></td>
     
       
 
       <% if admin_signed_in? %>
-      　<td><%= link_to("シフト表作成","/admin/new")%></td>
+      　<div class = "short_cut">
+        <td><%= link_to("シフト表作成","/admin/new")%></td>
         <td><%= link_to("シフト表一覧","/admin/index")%></td>
         <td><%= link_to("ユーザー管理","/users/index")%></td>
         <td><%= link_to("ユーザー新規作成","/users/new")%></td>
+        
       
-        <div class="login-set">
-          <span class=login-user>管理者でログインしています</span>
+        <div class = "login_set">
+          <span class = "login_user">管理者でログインしています</span>
           <%= link_to('Logout', destroy_admin_session_path, method: :delete) %>
         </div>
       <% else %>
-        <div class="login">
+        <div class = "login_set">
           <%= link_to('管理者ログイン', new_admin_session_path) %>   
         </div>
       <% end %>

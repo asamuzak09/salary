@@ -13,7 +13,7 @@
     <td></td>
 <% end %>        
 <td><%= link_to("編集","/admin/edit/#{card.id}") %></td>
-<td><%= link_to("給料計算","/users/salarytotal/#{card.id}") %></td>
+<td><%= link_to("給料算出","/users/salarytotal/#{card.id}") %></td>
 <td><%= link_to("削除","/admin/destroy/#{card.id}",{method: :delete ,data: { confirm: '削除してよろしいですか？'}}) %></td>
 </tr>
 <% end %>

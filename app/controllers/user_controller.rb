@@ -83,13 +83,61 @@ class UserController < ApplicationController
 
     def salarytotal
       @timecard = TimeCard.find_by(id: params[:id])
+      @salary = @timecard.salary
+      @shifttotal = 0
+      @worktotal = 0
+      @holidayworktotal = 0
+      @worktimes = 0
+      @holidayworktimes = 0
+      @overtimetotal = 0
+
       (@timecard.starting_date..@timecard.closing_date).each do |date|
-        @shift = @timecard.shifts.find_by(date: date)  
-      end  
+        @shift = @timecard.shifts.find_by(date: date)
+        @workhour = @shift.working_hour
+        if @shift.kind == "holiday"
+          if @workhour.punch_in != @workhour.punch_out
+            @holidayworktotal += worktime(@shift,@workhour)
+            @holidayworktimes += 1
+          end
+        else
+          @shifttotal += shifttime(@shift)
+          @worktotal += worktime(@shift,@workhour)
+          @worktimes += 1
+          @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift)   
+        end
+    
+            
+      end
+      
+    @work_salary = salary(@worktotal,@salary.payment)
+    @overtime_salary = salary(@overtimetotal,@salary.overtime_pay)
+    @holiday_salary = salary(@holidayworktotal,@salary.holiday_pay)
+      
     end  
 
     
     def salarypriority(user)
       @priority = Salary.where(user_id: user.id).order(priority: "DESC").first.priority + 1
+    end
+    
+
+    def shifttime(shift)
+      (shift.end_at - shift.start_at - shift.rest_minutes * 60)
+    end
+
+    def overtime(shift,workinghour)
+      (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
+    end    
+
+    def worktime(shift,workinghour)
+      if overtime(shift,workinghour)/60 >= shift.preparation
+        workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
+      else
+        shifttime(shift)    
+      end
+    end
+    
+    def salary(workingsecond,salary)
+      workingsecond.floor/3600 * salary
     end  
 end

@@ -14,11 +14,14 @@
  *= require_self
  */
 .error{
-    color: red
+    color: red;
 }
- .login-user{
+.login_user{
     margin-right: 10px;
 }
-.login-set{
+.login_set{
     float: right;
+}
+.short_cut{
+    width: 80%;
 }

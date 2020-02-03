@@ -1,6 +1,6 @@
-<table>
+<table border="1" cellpadding="6" cellspacing="0">
 <tr>
-<td rowspan = 2>合計</td>
+<td rowspan = 2>労働時間合計</td>
 <td colspan = 4 rowspan = 2></td>
 <%  %>
 <td>規定労働時間</td>
@@ -20,5 +20,22 @@
 <td><%= displaytime(@worktotal + @holidayworktotal) %></td>
 <td><%= @worktimes + @holidayworktimes %></td>
 <td><%= displaytime(@holidayworktotal) %></td>
+</tr>
+</table>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+    <td></td>
+    <td>規定内労働</td>
+    <td>残業時間</td>
+    <td>休日出勤</td>
+    <td>給与合計</td>
+</tr>
+<tr>
+    <td>合計</td>
+    <td><%= @work_salary %></td>
+    <td><%= @overtime_salary %></td>
+    <td><%= @holiday_salary %></td>
+    <td><%= @work_salary + @overtime_salary + @holiday_salary %></td>
 </tr>
 </table>
