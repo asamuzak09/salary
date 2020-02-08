@@ -16,10 +16,10 @@
 <td><%= displaytime(@shifttotal) %></td>
 <td><%= displaytime(@holidayworktotal) %></td>
 <td><%= displaytime(@overtimetotal) %></td>
-<td><%= displaytime(@worktotal) %></td>
+<td><%= displaytime(@worktotal - @overtimetotal) %></td>
 <td><%= displaytime(@worktotal + @holidayworktotal) %></td>
 <td><%= @worktimes + @holidayworktimes %></td>
-<td><%= displaytime(@holidayworktotal) %></td>
+<td><%= displaytime(@holidayworktotal + @overtimetotal) %></td>
 </tr>
 </table>
 

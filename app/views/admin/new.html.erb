@@ -4,7 +4,7 @@
   <p><%= f.date_field :closing_day %></p>
   <p><%= f.label :誰の出勤時間表を作成しますか？ %></p>
   <p><%= f.select :user_id, @users.map { |user| [user.name1 + " " + user.name2,user.id] } %></p>
-  <p><%= link_to("ユーザー新規作成", "/users/sign_up") %></p>
+  <p><%= link_to("労働者新規作成", "/users/new") %></p>
   <table border="1" cellpadding="6" cellspacing="0">
     <tr>
       <th colspan=5 class="head">シフト時間</th>

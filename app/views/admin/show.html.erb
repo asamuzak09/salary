@@ -1,3 +1,5 @@
+    <h3><%= @timecard.year %>/<%= @timecard.month %></h3>
+    <h3 class = "name"><%= @timecard.user.name1 + " " + @timecard.user.name2 %></h3>
     <table border="1" cellpadding="6" cellspacing="0" class="head">
     <tr>
     <th rowspan="2">月日</th>
@@ -60,13 +62,11 @@
             <td><%= displaytime(@shift.preparation * 60) %></td>
             <td><%= displaytime(worktime(@shift,@workhour)) %></td>
             <td>出勤</td>
-            <td><%= displaytime(worktime(@shift,@workhour)-shifttime(@shift))%></td>
+            <td><%= displaytime(overtime(@shift,@workhour))%></td>
             <% @shifttotal += shifttime(@shift) %>
             <% @worktotal += worktime(@shift,@workhour) %>
             <% @worktimes += 1 %>
-            <% if worktime(@shift,@workhour) > shifttime(@shift) %>
-                <% @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift) %>
-            <% end %>       
+            <% @overtimetotal += overtime(@shift,@workhour) %>      
         <% end %>
 
     

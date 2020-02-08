@@ -2,19 +2,22 @@
 <table cellpadding="5" cellspacing="5" class="head">
 <tr>
 <th>日付</th>
+<th>労働者</th>
 </tr>
 <% @cards.each do |card| %>
-<% @shift = Shift.find_by(date: card.starting_date) %>
-<tr>
-<td><%= card.year %>/<%= card.month %></td>
-<% if @shift.working_hour %>
-    <td><%= link_to("詳細","/admin/#{card.id}") %></td>
-<% else %>
-    <td></td>
-<% end %>        
-<td><%= link_to("編集","/admin/edit/#{card.id}") %></td>
-<td><%= link_to("給料算出","/users/salarytotal/#{card.id}") %></td>
-<td><%= link_to("削除","/admin/destroy/#{card.id}",{method: :delete ,data: { confirm: '削除してよろしいですか？'}}) %></td>
-</tr>
+    <% @shift = Shift.find_by(date: card.starting_date) %>
+    <tr>
+    <td><%= card.year %>/<%= card.month %></td>
+    <td><%= card.user.name1 %>  <%= card.user.name2 %></td>
+    <% if @shift.working_hour %>
+        <td><%= link_to("詳細","/admin/#{card.id}") %></td>
+    <% else %>
+        <td></td>
+    <% end %>        
+    <td><%= link_to("編集","/admin/edit/#{card.id}") %></td>
+    <td><%= link_to("給料算出","/users/salarytotal/#{card.id}") %></td>
+    <td><%= link_to("削除","/admin/destroy/#{card.id}",{method: :delete ,data: { confirm: '削除してよろしいですか？'}}) %></td>
+    </tr>
 <% end %>
 </table>
+<%= paginate @cards %>

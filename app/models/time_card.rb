@@ -3,4 +3,5 @@ class TimeCard < ApplicationRecord
     :salary_id , presence: true
     has_many :shifts, dependent: :destroy
     belongs_to :salary
+    belongs_to :user
 end

@@ -49,7 +49,8 @@ class UserController < ApplicationController
     end
     
     def show
-
+      @user = User.find_by(id: params[:id])
+      @salary = Salary.where(user_id: @user.id).order(priority: "DESC").first
     end
     
     def destroy
@@ -103,11 +104,11 @@ class UserController < ApplicationController
           @shifttotal += shifttime(@shift)
           @worktotal += worktime(@shift,@workhour)
           @worktimes += 1
-          @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift)   
+          if worktime(@shift,@workhour) > shifttime(@shift)
+           @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift)
+          end   
         end
-    
-            
-      end
+    end
       
     @work_salary = salary(@worktotal,@salary.payment)
     @overtime_salary = salary(@overtimetotal,@salary.overtime_pay)
@@ -126,7 +127,10 @@ class UserController < ApplicationController
     end
 
     def overtime(shift,workinghour)
-      (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
+      if (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) > shifttime(shift)
+        return (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
+      end 
+      0 
     end    
 
     def worktime(shift,workinghour)

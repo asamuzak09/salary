@@ -9,14 +9,19 @@ module AdminHelper
     end
 
     def overtime(shift,workinghour)
-        (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
-    end    
+    
+        if (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) >= shifttime(shift)    
+            return (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
+        end
+        0
+    end
+
 
     def worktime(shift,workinghour)
         if overtime(shift,workinghour)/60 >= shift.preparation
             workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
         else
-            shifttime(shift)    
+            workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60    
         end
     end 
 

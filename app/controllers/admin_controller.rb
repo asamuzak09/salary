@@ -67,7 +67,7 @@ class AdminController < ApplicationController
   end
 
   def index
-    @cards = TimeCard.all
+    @cards = TimeCard.all.order(closing_date: "DESC").page(params[:page])
   end
 
   def edit
