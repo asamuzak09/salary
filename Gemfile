@@ -9,7 +9,7 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
 end
-gem 'bootstrap', '~> 4.1.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'rails_admin', '~> 2.0'
 gem 'kaminari'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
