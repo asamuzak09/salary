@@ -1,29 +1,53 @@
-<h2>労働者作成</h2>
+<h2 class="mt-3 mb-5">労働者新規作成</h2>
 
 <%= form_with url: "/users/create", local:true do |f| %>
 
-  <div class="field">
+  <div class = "mb-5">
     <%= f.label :氏名（必須） %><br />
-    <%= f.text_field :name1, autofocus: true, autocomplete: "name1", value: @user.name1 %>
-    <%= f.text_field :name2, autocomplete: "name2", value: @user.name2 %>
+    <div class="form-row">
+      <div class="col">
+        <%= f.text_field :name1, autofocus: true, autocomplete: "name1", value: @user.name1 , class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= f.text_field :name2, autocomplete: "name2", value: @user.name2, class: "form-control" %>
+      </div>
+      <div class="col"></div>  
+    </div>
   </div>
 
-  <div class="field">
+  <div>
     <%= f.label :時給（通常） %><br />
-    <%= f.number_field :payment, autocomplete: "payment", value: @salary.payment %><br />
+    <div class="form-row">
+      <div class="col">
+        <%= f.number_field :payment, autocomplete: "payment", value: @salary.payment, class: "form-control" %><br />
+      </div>  
+      <div class="col-10"></div>
+    </div>
   </div>
 
   <div class="field">  
     <%= f.label :時給（時間外） %><br />
-    <%= f.number_field :overtime_pay, autocomplete: "overtime_pay", value: @salary.overtime_pay %><br />
+    <div class="form-row">
+      <div class="col">
+        <%= f.number_field :overtime_pay, autocomplete: "overtime_pay", value: @salary.overtime_pay, class: "form-control" %><br />
+      </div>  
+      <div class="col-10"></div>
+    </div>
+      
+
   </div>
 
-  <div class="field">  
+  <div class="mb-5">  
     <%= f.label :時給（休日） %><br />
-    <%= f.number_field :holiday_pay, autocomplete: "holiday_pay", value: @salary.holiday_pay%>
+    <div class="form-row">
+      <div class="col">
+        <%= f.number_field :holiday_pay, autocomplete: "holiday_pay", value: @salary.holiday_pay, class: "form-control"%>
+      </div>  
+      <div class="col-10"></div>
+    </div>
   </div>
 
   <div class="actions">
-    <%= f.submit "作成" %>
+    <%= f.submit "作成", class: "btn btn-primary" %>
   </div>
 <% end %>  

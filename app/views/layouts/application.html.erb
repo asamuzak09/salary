@@ -10,38 +10,76 @@
   </head>
 
   <body>
-      <% if flash[:notice] %>
-      <p><%= flash[:notice] %></p>
+    <% if flash[:notice] %>
+      <p class="alert alert-primary" role="alert"><%= flash[:notice] %></p>
     <% end %>
     
-    <table cellspacing="5" cellpadding="5">
-    <tr>
-      <td><%= link_to("Top","/")%></td>
-    
-      
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">給料計算</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
       <% if admin_signed_in? %>
-      　<div class = "short_cut">
-        <td><%= link_to("シフト表作成","/admin/new")%></td>
-        <td><%= link_to("シフト表一覧","/admin/index")%></td>
-        <td><%= link_to("労働者管理","/users/index")%></td>
-        <td><%= link_to("労働者新規作成","/users/new")%></td>
-        
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/new">シフト表作成 <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/index">シフト表一覧</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/users/index">労働者管理</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/users/new">労働者新規作成</a>
+        </li>
+
+      <% else %>
+        <li class="nav-item">
+          <a class="nav-link disabled">シフト表作成 <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link disabled">シフト表一覧</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link disabled">労働者管理</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link disabled">労働者新規作成</a>
+        </li>
       
-        <div class = "login_set">
-          <span class = "login_user">管理者でログインしています</span>
+      <% end %>  
+    </ul>
+    <% if admin_signed_in? %>
+        <div class = "nav-item">
+          <span>管理者でログインしています </span>
           <%= link_to('Logout', destroy_admin_session_path, method: :delete) %>
         </div>
-      <% else %>
-        <div class = "login_set">
-          <%= link_to('管理者ログイン', new_admin_session_path) %>   
-        </div>
-      <% end %>
-          
-    
+    <% else %>
+      <div class = "nav-item">
+        <%= link_to('管理者ログイン', new_admin_session_path,{class: "nav-link"}) %>
+      </div>  
+    <% end %>
+
+    </div>
+  </nav>
+        
     </tr> 
 
     </table>
-    <%= yield %>
+    <div class="container">
+     <%= yield %>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
   </body>
 </html>
