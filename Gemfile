@@ -12,7 +12,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.6'
 end
-gem 'bootstrap', '~> 4.1.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'rails_admin', '~> 2.0'
 gem 'kaminari'
 gem 'rails-i18n'
