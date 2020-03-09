@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   get "admin/index" => "admin#index"
   post "admin/update" => "admin#update"
   delete "admin/destroy/:id" => "admin#destroy"
+  get "admin/public_holiday" => "admin#public_holiday"
+  post "admin/set_holiday" => "admin#set_holiday"
+  delete "admin/destroy_holiday/:id" => "admin#destroy_holiday"
   mount RailsAdmin::Engine => '/develop', as: 'rails_admin'
   get "admin/:id" => "admin#show"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -22,6 +22,7 @@ RailsAdmin.config do |config|
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
+  config.main_app_name = ["Salary Calculation","管理画面"]
 
   config.actions do
     dashboard                     # mandatory
@@ -37,5 +38,23 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     # history_index
     # history_show
+  end
+end
+module RailsAdmin 
+  module Config 
+    module Fields 
+      module Types 
+        class Datetime < RailsAdmin::Config::Fields::Base
+          register_instance_option :date_format do 
+            :default
+          end
+        end
+        class Date < RailsAdmin::Config::Fields::Types::Datetime 
+          register_instance_option :date_format do 
+            :default
+          end
+        end
+      end 
+    end 
   end
 end

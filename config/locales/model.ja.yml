@@ -4,6 +4,10 @@ ja:
         user: ユーザー # view側： User.model_name.human => "ユーザ" / t("activerecord.models.user")と同じ
         time_card: タイムカード
         salary: 給料
+        admin: 管理者
+        public_holiday: 祝日
+        shift: シフト
+        working_hour: 労働時間
       attributes:
           user:
             id: ID

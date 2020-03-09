@@ -1,0 +1,19 @@
+<%= form_with(model:@public_holiday, url: "/admin/set_holiday", local:true) do |f| %>
+    <%= render 'layouts/error_messages', model: f.object %>
+    <%= f.label :祝日を選択してください %><br>
+    <p><%= f.date_field :public_holiday %></p>
+    <p><%= f.submit value: "設定" ,data: { "disable-with": "設定しています..." } %></p>
+<% end %>
+
+<table cellpadding="5" cellspacing="5" class="head">
+<tr>
+<th>日付</th>
+</tr>
+<% @holidays.each do |holiday| %>
+    <tr>
+    <td><%= holiday.date %></td>        
+    <td><%= link_to("削除","/admin/destroy_holiday/#{holiday.id}",{method: :delete ,data: { confirm: '削除してよろしいですか？'}}) %></td>
+    </tr>
+<% end %>
+</table>
+<%= paginate @holidays %>

@@ -18,59 +18,12 @@ class AdminController < ApplicationController
       starting_date: @date - 1.month + 1.day
     )
     if @time_card.save
-
-      @pubholidays = PublicHoliday.pluck(:date)
-
-      (@time_card.starting_date..@time_card.closing_date).each do |date|
-        if @pubholidays.include?(date)
-          @start_at = Time.parse("00:00")
-          @rest = 0
-          @end_at = Time.parse("00:00")
-        elsif date.wday == 1
-          @start_at = Time.parse("#{create_params[:'mon_start(4i)']}:#{create_params[:'mon_start(5i)']}")
-          @rest = create_params[:"mon_rest(4i)"].to_i * 60 + create_params[:"mon_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'mon_end(4i)']}:#{create_params[:'mon_end(5i)']}")
-        elsif date.wday == 2
-          @start_at = Time.parse("#{create_params[:'tue_start(4i)']}:#{create_params[:'tue_start(5i)']}")
-          @rest = create_params[:"tue_rest(4i)"].to_i * 60 + create_params[:"tue_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'tue_end(4i)']}:#{create_params[:'tue_end(5i)']}")
-        elsif date.wday == 3
-          @start_at = Time.parse("#{create_params[:'wed_start(4i)']}:#{create_params[:'wed_start(5i)']}")
-          @rest = create_params[:"wed_rest(4i)"].to_i * 60 + create_params[:"wed_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'wed_end(4i)']}:#{create_params[:'wed_end(5i)']}")
-        elsif date.wday == 4
-          @start_at = Time.parse("#{create_params[:'thu_start(4i)']}:#{create_params[:'thu_start(5i)']}")
-          @rest = create_params[:"thu_rest(4i)"].to_i * 60 + create_params[:"thu_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'thu_end(4i)']}:#{create_params[:'thu_end(5i)']}")
-        elsif date.wday == 5
-          @start_at = Time.parse("#{create_params[:'fri_start(4i)']}:#{create_params[:'fri_start(5i)']}")
-          @rest = create_params[:"fri_rest(4i)"].to_i * 60 + create_params[:"fri_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'fri_end(4i)']}:#{create_params[:'fri_end(5i)']}")
-        elsif date.wday == 6
-          @start_at = Time.parse("#{create_params[:'sat_start(4i)']}:#{create_params[:'sat_start(5i)']}")
-          @rest = create_params[:"sat_rest(4i)"].to_i * 60 + create_params[:"sat_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'sat_end(4i)']}:#{create_params[:'sat_end(5i)']}")
-        else
-          @start_at = Time.parse("#{create_params[:'sun_start(4i)']}:#{create_params[:'sun_start(5i)']}")
-          @rest = create_params[:"sun_rest(4i)"].to_i * 60 + create_params[:"sun_rest(5i)"].to_i
-          @end_at = Time.parse("#{create_params[:'sun_end(4i)']}:#{create_params[:'sun_end(5i)']}")
-        end 
-        @shift = Shift.create(
-        time_card_id: @time_card.id,
-        kind:Shift.kind(@start_at,@end_at),
-        date:date,
-        start_at: @start_at,
-        rest_minutes: @rest,
-        end_at: @end_at,
-        preparation: create_params[:"preparation(4i)"].to_i * 60 + create_params[:"preparation(5i)"].to_i
-        )
-      end
-      
+      Shift.shift_create(@time_card,create_params)
       redirect_to("/admin/edit/#{@time_card.id}")
     else
       @users = User.all
       render("/admin/new") 
-    end  
+    end
   end
 
   def create_params
@@ -125,6 +78,27 @@ class AdminController < ApplicationController
     @timecard.destroy
     redirect_to("/admin/index") 
   end
+
+  def public_holiday
+    @public_holiday = PublicHoliday.new
+    @holidays = PublicHoliday.all.order(date: "DESC").page(params[:page])
+  end
+  
+  def set_holiday
+    @public_holiday = PublicHoliday.new(date: params[:public_holiday][:public_holiday])
+    if @public_holiday.save
+      redirect_to("/admin/public_holiday")
+    else
+      @holidays = PublicHoliday.all.order(date: "DESC").page(params[:page])
+      render("/admin/public_holiday") 
+    end
+  end
+  
+  def destroy_holiday
+    @public_holiday = PublicHoliday.find_by(id: params[:id])
+    @public_holiday.destroy
+    redirect_to("/admin/public_holiday") 
+  end  
 
   
   def worktime(start,rest,ending)
