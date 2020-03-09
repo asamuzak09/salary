@@ -9,9 +9,13 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
 end
+group :development, :test do
+  gem 'rspec-rails', '~> 3.6'
+end
 gem 'bootstrap', '~> 4.1.1'
 gem 'rails_admin', '~> 2.0'
 gem 'kaminari'
+gem 'rails-i18n'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record

@@ -1,7 +1,7 @@
 <h2>給料編集</h2>
 
-<%= form_with url: "/users/salaryupdate/#{@salary.user_id}", local:true do |f| %>
-
+<%= form_with model: @salary, url: "/users/salaryupdate/#{@salary.user_id}", local:true, method: :patch do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class="field">
     <%= f.label :時給（通常） %><br />
     <%= f.number_field :payment, autocomplete: "payment", value: @salary.payment %><br />

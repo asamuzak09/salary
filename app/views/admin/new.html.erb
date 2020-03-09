@@ -1,5 +1,6 @@
 <h1>出勤時間表作成</h1>
-<%= form_with url: "/admin/create", local:true do |f| %>
+<%= form_with(model:@time_card, url: "/admin/create", local:true) do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <%= f.label :西暦、月、締め日を選択してください %><br>
   <p><%= f.date_field :closing_day %></p>
   <p><%= f.label :誰の出勤時間表を作成しますか？ %></p>

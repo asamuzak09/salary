@@ -1,7 +1,7 @@
 <h2>労働者編集</h2>
 
-<%= form_with url: "/users/update/#{@user.id}", local:true do |f| %>
-
+<%= form_with model: @user, url: "/users/update/#{@user.id}", local:true, method: :patch do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class="field">
     <%= f.label :氏名（必須） %><br />
     <%= f.text_field :name1, autofocus: true, autocomplete: "name1", value: @user.name1 %>

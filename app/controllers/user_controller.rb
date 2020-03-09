@@ -5,30 +5,40 @@ class UserController < ApplicationController
     
     def new
       @user = User.new
-      @salary = Salary.new
+      @salary = @user.salaries.build
     end
 
     def create
-      @user = User.new(name1: params[:name1],name2: params[:name2])
+      @user = User.new(name1: user_params[:name1],name2: user_params[:name2])
       @salary = Salary.new(
-          user_id: 0,#fake
-          payment: params[:payment],
-          overtime_pay: params[:overtime_pay],
-          holiday_pay: params[:holiday_pay],
+          user_id: 1,#fake
+          payment: salary_params[:payment],
+          overtime_pay: salary_params[:overtime_pay],
+          holiday_pay: salary_params[:holiday_pay],
           priority: 1
         )
-      if @user.valid? == false || @salary.valid?
-        render("user/new")
-      else
-
+      if @user.valid? && @salary.valid?
         ActiveRecord::Base.transaction do
           @user.save
           @salary.user_id = @user.id 
           @salary.save
         end
       
-        redirect_to("/users/index")
+        redirect_to("/users")
+        
+      else
+        @salary.valid?
+        @user.salaries << @salary
+        render("user/new")
       end  
+    end
+    
+    def salary_params
+      params.require(:user).require(:salaries_attributes).require("0").permit!.to_h
+    end
+
+    def user_params
+      params.require(:user).permit!.to_h
     end
     
     def edit
@@ -37,16 +47,20 @@ class UserController < ApplicationController
     
     def update
       @user = User.find_by(id: params[:id])
-      @user.name1 = params[:name1]
-      @user.name2 = params[:name2]
-      if @user.valid? == false
-        render("user/edit")
-      else
+      @user.name1 = update_params[:name1]
+      @user.name2 = update_params[:name2]
+      if @user.valid?
         @user.save
-        redirect_to("/users/index")
+        redirect_to("/users")
+      else
+        render("user/edit")
       end 
 
     end
+
+    def update_params
+      params.require(:user).permit!.to_h
+    end 
     
     def show
       @user = User.find_by(id: params[:id])
@@ -56,7 +70,7 @@ class UserController < ApplicationController
     def destroy
       @user = User.find_by(id: params[:id])
       @user.destroy
-      redirect_to("/users/index")
+      redirect_to("/users")
     end
     
     def salaryedit
@@ -70,16 +84,20 @@ class UserController < ApplicationController
       @salary = Salary.new(
         user_id: @user.id,
         priority: salarypriority(@user),
-        payment: params[:payment],
-        overtime_pay: params[:overtime_pay],
-        holiday_pay: params[:holiday_pay]
+        payment: salary_update_params[:payment],
+        overtime_pay: salary_update_params[:overtime_pay],
+        holiday_pay: salary_update_params[:holiday_pay]
       )
-      if @salary.valid? == false
-        render("user/salaryedit")
-      else
+      if @salary.valid?
         @salary.save
-        redirect_to("/users/index")
+        redirect_to("/users")
+      else
+        render("user/salaryedit")
       end
+    end
+
+    def salary_update_params
+      params.require(:salary).permit!.to_h
     end
 
     def salarytotal
@@ -108,12 +126,14 @@ class UserController < ApplicationController
            @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift)
           end   
         end
-    end
+      end
+
+    
       
-    @work_salary = salary(@worktotal,@salary.payment)
-    @overtime_salary = salary(@overtimetotal,@salary.overtime_pay)
-    @holiday_salary = salary(@holidayworktotal,@salary.holiday_pay)
-      
+      @work_salary = salary(@worktotal,@salary.payment)
+      @overtime_salary = salary(@overtimetotal,@salary.overtime_pay)
+      @holiday_salary = salary(@holidayworktotal,@salary.holiday_pay)
+        
     end  
 
     
@@ -143,5 +163,7 @@ class UserController < ApplicationController
     
     def salary(workingsecond,salary)
       workingsecond.floor/3600 * salary
-    end  
+    end
+    
+     
 end

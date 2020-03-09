@@ -1,0 +1,19 @@
+ja:
+    activerecord:
+      models:
+        user: ユーザー # view側： User.model_name.human => "ユーザ" / t("activerecord.models.user")と同じ
+        time_card: タイムカード
+        salary: 給料
+      attributes:
+          user:
+            id: ID
+            name1: 姓 # view側： User.human_attribute_name :name => "名前" /　t("activerecord.attributes.user.name")と同じ
+            name2: 名前
+          time_card:
+            user_id: ユーザー
+            year: 年
+            month: 月
+            starting_date: 出勤時刻
+            closing_date: 退社時刻
+            salary_id: 給料
+            

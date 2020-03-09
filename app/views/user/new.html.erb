@@ -1,7 +1,7 @@
 <h2 class="mt-3 mb-5">労働者新規作成</h2>
 
-<%= form_with url: "/users/create", local:true do |f| %>
-
+<%= form_with model:@user, url: "/users", local:true, method: :post do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class = "mb-5">
     <%= f.label :氏名（必須） %><br />
     <div class="form-row">
@@ -14,38 +14,40 @@
       <div class="col"></div>  
     </div>
   </div>
-
-  <div>
-    <%= f.label :時給（通常） %><br />
-    <div class="form-row">
-      <div class="col">
-        <%= f.number_field :payment, autocomplete: "payment", value: @salary.payment, class: "form-control" %><br />
-      </div>  
-      <div class="col-10"></div>
+  <%= f.fields_for :salaries do |s| %>
+    <%= render 'layouts/error_messages', model: s.object %>
+    <div>
+      <%= s.label :時給（通常） %><br />
+      <div class="form-row">
+        <div class="col">
+          <%= s.number_field :payment, autocomplete: "payment", value: @salary.payment, class: "form-control" %><br />
+        </div>  
+        <div class="col-10"></div>
+      </div>
     </div>
-  </div>
 
-  <div class="field">  
-    <%= f.label :時給（時間外） %><br />
-    <div class="form-row">
-      <div class="col">
-        <%= f.number_field :overtime_pay, autocomplete: "overtime_pay", value: @salary.overtime_pay, class: "form-control" %><br />
-      </div>  
-      <div class="col-10"></div>
+    <div class="field">  
+      <%= s.label :時給（時間外） %><br />
+      <div class="form-row">
+        <div class="col">
+          <%= s.number_field :overtime_pay, autocomplete: "overtime_pay", value: @salary.overtime_pay, class: "form-control" %><br />
+        </div>  
+        <div class="col-10"></div>
+      </div>
+        
+
     </div>
-      
 
-  </div>
-
-  <div class="mb-5">  
-    <%= f.label :時給（休日） %><br />
-    <div class="form-row">
-      <div class="col">
-        <%= f.number_field :holiday_pay, autocomplete: "holiday_pay", value: @salary.holiday_pay, class: "form-control"%>
-      </div>  
-      <div class="col-10"></div>
+    <div class="mb-5">  
+      <%= s.label :時給（休日） %><br />
+      <div class="form-row">
+        <div class="col">
+          <%= s.number_field :holiday_pay, autocomplete: "holiday_pay", value: @salary.holiday_pay, class: "form-control"%>
+        </div>  
+        <div class="col-10"></div>
+      </div>
     </div>
-  </div>
+  <% end %>  
 
   <div class="actions">
     <%= f.submit "作成", class: "btn btn-primary" %>
