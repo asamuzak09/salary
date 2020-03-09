@@ -1,6 +1,6 @@
 <%= form_with(model:@public_holiday, url: "/admin/set_holiday", local:true) do |f| %>
     <%= render 'layouts/error_messages', model: f.object %>
-    <%= f.label :祝日を選択してください %><br>
+    <%= f.label :祝日を設定してください %><br>
     <p><%= f.date_field :public_holiday %></p>
     <p><%= f.submit value: "設定" ,data: { "disable-with": "設定しています..." } %></p>
 <% end %>

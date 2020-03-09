@@ -1,13 +1,11 @@
 <br><br>
 <% if admin_signed_in? %>
-    <p>・<%= link_to("シフト表作成","/admin/new")%></p>
-    <p>・<%= link_to("シフト表一覧","/admin/index")%></p>
-    <p>・<%= link_to("労働者管理","/users")%></p>
-    <p>・<%= link_to("労働者新規作成","/users/new")%></p>
-    <br>
+
     <h3>給料計算の流れ</h3><br>
     <p>１．<%= link_to("祝日設定","/admin/public_holiday")%></p>
+    <p class="text-danger">※ 必ず祝日を先に設定してください</p>
     <p>２．<%= link_to("シフト表作成","/admin/new")%></p>
+    <p>３．<%= link_to("出勤時間入力・給料計算","/admin/index")%></p>
 
 <% else %>
     <h3>※シフト表を作成するには管理者ログインが必要です。</h3>
