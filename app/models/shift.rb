@@ -48,17 +48,19 @@ class Shift < ApplicationRecord
           @rest = create_params[:"sun_rest(4i)"].to_i * 60 + create_params[:"sun_rest(5i)"].to_i
           @end_at = Time.parse("#{create_params[:'sun_end(4i)']}:#{create_params[:'sun_end(5i)']}")
         end 
-        @shift = Shift.create(
-        time_card_id: time_card.id,
-        kind:Shift.kind(@start_at,@end_at),
-        date:date,
-        start_at: @start_at,
-        rest_minutes: @rest,
-        end_at: @end_at,
-        preparation: create_params[:"preparation(4i)"].to_i * 60 + create_params[:"preparation(5i)"].to_i
+        @shift = Shift.new(
+          time_card_id: time_card.id,
+          kind:Shift.kind(@start_at,@end_at),
+          date:date,
+          start_at: @start_at,
+          rest_minutes: @rest,
+          end_at: @end_at,
+          preparation: create_params[:"preparation(4i)"].to_i * 60 + create_params[:"preparation(5i)"].to_i
         )
+        @shift.save
       end
 
     end
+
     
 end

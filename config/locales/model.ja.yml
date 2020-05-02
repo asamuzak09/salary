@@ -17,7 +17,7 @@ ja:
             user_id: ユーザー
             year: 年
             month: 月
-            starting_date: 出勤時刻
-            closing_date: 退社時刻
+            starting_date: 開始日
+            closing_date: 終了日
             salary_id: 給料
             
