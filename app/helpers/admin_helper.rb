@@ -27,9 +27,9 @@ module AdminHelper
         end 
 
         if overtime(shift,workinghour)/60 >= shift.preparation
-            workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
+            workinghour.punch_out - @working_punch_in - (workinghour.rest_minutes + shift.preparation) * 60
         else
-            workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60    
+            workinghour.punch_out - @working_punch_in - workinghour.rest_minutes * 60    
         end
     end 
 
