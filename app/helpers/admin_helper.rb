@@ -9,9 +9,14 @@ module AdminHelper
     end
 
     def overtime(shift,workinghour)
+        if shift.kind == "working_day"  && workinghour.punch_in.hour > 0 && workinghour.punch_in < Time.parse(workinghour.punch_in.strftime("%Y-%m-%d") + " 08:50")
+            @working_punch_in = Time.parse(workinghour.punch_in.strftime("%Y-%m-%d") + " 08:50")
+        else 
+            @working_punch_in = workinghour.punch_in    
+        end
     
-        if (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) >= shifttime(shift)    
-            return (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
+        if (workinghour.punch_out - @working_punch_in - workinghour.rest_minutes * 60) >= shifttime(shift)    
+            return (workinghour.punch_out - @working_punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
         end
         0
     end
