@@ -18,6 +18,14 @@ module AdminHelper
 
 
     def worktime(shift,workinghour)
+        if shift.kind == "holiday"  || workinghour.punch_in.hour == 0
+            @working_punch_in = workinghour.punch_in
+        elsif workinghour.punch_in >= Time.parse(workinghour.punch_in.strftime("%Y-%m-%d") + " 08:50")
+            @working_punch_in = workinghour.punch_in
+        else 
+            @working_punch_in = Time.parse(workinghour.punch_in.strftime("%Y-%m-%d") + " 08:50")    
+        end 
+
         if overtime(shift,workinghour)/60 >= shift.preparation
             workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
         else
