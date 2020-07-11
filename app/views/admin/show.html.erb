@@ -44,10 +44,10 @@
                 <td><%= displaytime(@workhour.rest_minutes * 60) %></td>
                 <td><%= @workhour.punch_out.strftime('%k:%M') %></td>
                 <td><%= displaytime(@shift.preparation * 60) %></td>
-                <td><%= displaytime(worktime(@shift,@workhour)) %></td>
+                <td><%= displaytime(User.worktime(@shift,@workhour)) %></td>
                 <td>休日出勤</td>
-                <td><%= displaytime(worktime(@shift,@workhour))%></td>
-                <% @holidayworktotal += worktime(@shift,@workhour) %>
+                <td><%= displaytime(User.worktime(@shift,@workhour))%></td>
+                <% @holidayworktotal += User.worktime(@shift,@workhour) %>
                 <% @holidayworktimes += 1 %>   
             <% end %>
         <% else %>
@@ -55,18 +55,18 @@
             <td><%= @shift.start_at.strftime('%k:%M') %></td>
             <td><%= displaytime(@shift.rest_minutes * 60) %></td>
             <td><%= @shift.end_at.strftime('%k:%M') %></td>
-            <td><%= displaytime(shifttime(@shift)) %></td>
+            <td><%= displaytime(User.shifttime(@shift)) %></td>
             <td><%= @workhour.punch_in.strftime('%k:%M') %></td>
             <td><%= displaytime(@workhour.rest_minutes * 60) %></td>
             <td><%= @workhour.punch_out.strftime('%k:%M') %></td>
             <td><%= displaytime(@shift.preparation * 60) %></td>
-            <td><%= displaytime(worktime(@shift,@workhour)) %></td>
+            <td><%= displaytime(User.worktime(@shift,@workhour)) %></td>
             <td>出勤</td>
-            <td><%= displaytime(overtime(@shift,@workhour))%></td>
-            <% @shifttotal += shifttime(@shift) %>
-            <% @worktotal += worktime(@shift,@workhour) %>
+            <td><%= displaytime(User.overtime(@shift,@workhour))%></td>
+            <% @shifttotal += User.shifttime(@shift) %>
+            <% @worktotal += User.worktime(@shift,@workhour) %>
             <% @worktimes += 1 %>
-            <% @overtimetotal += overtime(@shift,@workhour) %>      
+            <% @overtimetotal += User.overtime(@shift,@workhour) %>      
         <% end %>
 
     

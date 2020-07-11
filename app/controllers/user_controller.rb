@@ -115,15 +115,15 @@ class UserController < ApplicationController
         @workhour = @shift.working_hour
         if @shift.kind == "holiday"
           if @workhour.punch_in != @workhour.punch_out
-            @holidayworktotal += worktime(@shift,@workhour)
+            @holidayworktotal += User.worktime(@shift,@workhour)
             @holidayworktimes += 1
           end
         else
-          @shifttotal += shifttime(@shift)
-          @worktotal += worktime(@shift,@workhour)
+          @shifttotal += User.shifttime(@shift)
+          @worktotal += User.worktime(@shift,@workhour)
           @worktimes += 1
-          if worktime(@shift,@workhour) > shifttime(@shift)
-           @overtimetotal += worktime(@shift,@workhour)-shifttime(@shift)
+          if User.worktime(@shift,@workhour) > User.shifttime(@shift)
+           @overtimetotal += User.worktime(@shift,@workhour)-User.shifttime(@shift)
           end   
         end
       end
@@ -141,25 +141,6 @@ class UserController < ApplicationController
       @priority = Salary.where(user_id: user.id).order(priority: "DESC").first.priority + 1
     end
     
-
-    def shifttime(shift)
-      (shift.end_at - shift.start_at - shift.rest_minutes * 60)
-    end
-
-    def overtime(shift,workinghour)
-      if (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) > shifttime(shift)
-        return (workinghour.punch_out - workinghour.punch_in - workinghour.rest_minutes * 60) - shifttime(shift)
-      end 
-      0 
-    end    
-
-    def worktime(shift,workinghour)
-      if overtime(shift,workinghour)/60 >= shift.preparation
-        workinghour.punch_out - workinghour.punch_in - (workinghour.rest_minutes + shift.preparation) * 60
-      else
-        shifttime(shift)    
-      end
-    end
     
     def salary(workingsecond,salary)
       ((workingsecond.to_f/3600) * salary).round(2)

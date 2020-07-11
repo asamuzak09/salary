@@ -53,12 +53,12 @@
             <td><%= @shift.start_at.strftime('%k:%M') %></td>
             <td><%= displaytime(@shift.rest_minutes * 60) %></td>
             <td><%= @shift.end_at.strftime('%k:%M') %></td>
-            <td><%= displaytime(shifttime(@shift)) %></td>
+            <td><%= displaytime(User.shifttime(@shift)) %></td>
             <td><%= f.time_select :"working_hour[][day_start]" , {default: @start_at}, ignore_date: true %></td>
             <td><%= f.time_select :"working_hour[][day_rest]" , default: {hour: @rest_minutes/60, minute: @rest_minutes%60, }, ignore_date: true %></td>
             <td><%= f.time_select :"working_hour[][day_end]" , {default: @end_at}, ignore_date: true %></td>
             <td><%= displaytime(@shift.preparation * 60) %></td>
-            <% @shifttotal += shifttime(@shift) %>
+            <% @shifttotal += User.shifttime(@shift) %>
         <% end %>
 
         
