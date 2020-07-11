@@ -130,7 +130,7 @@ class UserController < ApplicationController
 
     
       
-      @work_salary = salary(@worktotal,@salary.payment)
+      @work_salary = salary(@worktotal - @overtimetotal,@salary.payment)
       @overtime_salary = salary(@overtimetotal,@salary.overtime_pay)
       @holiday_salary = salary(@holidayworktotal,@salary.holiday_pay)
         
@@ -162,7 +162,7 @@ class UserController < ApplicationController
     end
     
     def salary(workingsecond,salary)
-      workingsecond.floor/3600 * salary
+      ((workingsecond.to_f/3600) * salary).round(2)
     end
     
      
