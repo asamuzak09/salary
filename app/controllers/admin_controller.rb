@@ -100,13 +100,4 @@ class AdminController < ApplicationController
     redirect_to("/admin/public_holiday") 
   end  
 
-  
-  def worktime(start,rest,ending)
-    (ending - start - rest * 60)/60
-  end
-
-  def dworktime(start,rest,ending,prepare)
-    "#{(ending - start - rest * 60 - prepare * 60).floor/3600}".rjust(2,"0") + ":" + "#{(ending - start - rest * 60 ).floor%3600/60}".rjust(2,"0")
-  end
-
 end
