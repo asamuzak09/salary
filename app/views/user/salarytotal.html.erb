@@ -37,6 +37,6 @@
     <td><%= @work_salary %></td>
     <td><%= @overtime_salary %></td>
     <td><%= @holiday_salary %></td>
-    <td><%= @work_salary + @overtime_salary + @holiday_salary %></td>
+    <td><%= @work_salary.floor + @overtime_salary.floor + @holiday_salary.floor %></td>
 </tr>
 </table>
